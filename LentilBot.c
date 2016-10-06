@@ -29,8 +29,8 @@
 
 #define LIFT_UP_BTN (vexRT[Btn5U])
 #define LIFT_DWN_BTN (vexRT[Btn5D])
-#define LIFT_UP_SLOW_BTN (vexRT[Btn6U])
-#define LIFT_DWN_SLOW_BTN (vexRT[Btn6D])
+//#define LIFT_UP_SLOW_BTN (vexRT[Btn6U])
+//#define LIFT_DWN_SLOW_BTN (vexRT[Btn6D])
 
 #define FLIP_DRIVE_BTN (vexRT[Btn8L])
 #define TANK_BTN (vexRT[Btn8R])
@@ -110,11 +110,11 @@ task usercontrol() {
 		rDrivePwr,
 		lDrivePwr,
 		tempDriveVar,
-		liftHoldPwr = 15,
+//		liftHoldPwr = 15,
 		liftUpPwr = 127,
-		liftDwnPwr = -95;
-	const int stickThresh = 15,
-		holdPwrInc = 7;
+		liftDwnPwr = -63;
+	const int stickThresh = 15;
+		//holdPwrInc = 7;
 
 	static bool flipDrive = false,
 		tank = false;
@@ -128,25 +128,25 @@ task usercontrol() {
 
 		upToggle(&flipDriveToggle, FLIP_DRIVE_BTN);
 		upToggle(&tankToggle, TANK_BTN);
-		upToggle(&liftPwrUpToggle, HOLD_PWR_UP_BTN);
-		upToggle(&liftPwrDwnToggle, HOLD_PWR_DWN_BTN);
-		upToggle(&liftPwrResetToggle, HOLD_PWR_RESET_BTN);
+		//upToggle(&liftPwrUpToggle, HOLD_PWR_UP_BTN);
+		//upToggle(&liftPwrDwnToggle, HOLD_PWR_DWN_BTN);
+		//upToggle(&liftPwrResetToggle, HOLD_PWR_RESET_BTN);
 
 		if(pressToggle(&flipDriveToggle, FLIP_DRIVE_BTN))
 			flipDrive = !flipDrive;
 		if(pressToggle(&tankToggle, TANK_BTN))
 			tank = !tank;
 
-		liftHoldPwr =
-			(pressToggle(&liftPwrUpToggle, HOLD_PWR_UP_BTN)
-				^ pressToggle(&liftPwrDwnToggle, HOLD_PWR_DWN_BTN)
-				^ pressToggle(&liftPwrResetToggle, HOLD_PWR_RESET_BTN))
-			? (pressToggle(&liftPwrUpToggle, HOLD_PWR_UP_BTN))
-				? liftHoldPwr + holdPwrInc
-				: (pressToggle(&liftPwrDwnToggle, HOLD_PWR_DWN_BTN))
-					? liftHoldPwr - holdPwrInc
-					: 15
-			: liftHoldPwr;
+		//liftHoldPwr =
+		//	(pressToggle(&liftPwrUpToggle, HOLD_PWR_UP_BTN)
+		//		^ pressToggle(&liftPwrDwnToggle, HOLD_PWR_DWN_BTN)
+		//		^ pressToggle(&liftPwrResetToggle, HOLD_PWR_RESET_BTN))
+		//	? (pressToggle(&liftPwrUpToggle, HOLD_PWR_UP_BTN))
+		//		? liftHoldPwr + holdPwrInc
+		//		: (pressToggle(&liftPwrDwnToggle, HOLD_PWR_DWN_BTN))
+		//			? liftHoldPwr - holdPwrInc
+		//			: 15
+		//	: liftHoldPwr;
 
 		
 			
@@ -155,19 +155,21 @@ task usercontrol() {
 		upLeds(tankLeds, tank);
 
 		if(LIFT_UP_BTN
-			^ LIFT_UP_SLOW_BTN
-			^ LIFT_DWN_BTN
-			^ LIFT_DWN_SLOW_BTN)
+			//^ LIFT_UP_SLOW_BTN
+			^ LIFT_DWN_BTN)
+			//^ LIFT_DWN_SLOW_BTN)
 		{
 			if(LIFT_UP_BTN)
 				liftPwr = liftUpPwr;
-			else if(LIFT_UP_SLOW_BTN)
-				liftPwr = 31;
-			else if(LIFT_DWN_BTN)
-				liftPwr = -31;
+			//else if(LIFT_UP_SLOW_BTN)
+			//	liftPwr = 31;
+			//else if(LIFT_DWN_SLOW_BTN)
+			//	liftPwr = -31;
 			else
 				liftPwr = liftDwnPwr;
 		}
+		else
+				liftPwr = 23;
 				
 		if(tank) {
 			rDrivePwr = stick[RY];
