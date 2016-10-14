@@ -1,22 +1,26 @@
-#include "lnStarBot/clawCtl.h"
-#include "lnStarBot/liftCtl.h"
-#include "lnStarBot/driveCtl.h"
+#define ROBOT_C
+
+#ifdef ROBOT_C
+#include "prosRobotcFuncs.h"
+#endif
+
+#include "lnStarBot/sysCtl.h"
 #include "pid.h"
 
-#include "lnStarBot/auton.h"
+#include "lnStarBot/V2/auton.h"
 
-const char rDriveMtrCt = 2,
-  lDriveMtrCt = 2,
-  rDriveMtrPorts[2] = {8, 9},
-  lDriveMtrPorts[2] = {2, 3},
-  liftMtrCt = 4,
-  liftMtrPorts[4] = {4, 5, 6, 7},
-  clawMtrCt = 2,
-  clawMtrPorts[2] = {1, 10};
+
+
+
+Sys Lift,
+  Claw,
+  rDrive,
+  lDrive;
 
 task main() {
 
   int stick[4];
+  unsigned char 
 
   while(true) {
 
@@ -25,32 +29,32 @@ task main() {
         ? vexRT[i]
         : 0;
 
-    if(tank)
-      driveCtl(&lDriveMtrPorts, lDriveMtrCt,
-        &rDriveMtrPorts, rDriveMtrCt,
-        tank(&drivePwr, stick[2], stick[1]);
-    else
-      driveCtl(&lDriveMtrPorts, lDriveMtrCt,
-        &rDriveMtrPorts, rDriveMtrCt,
-        arcade(&drivePwr, stick[2], stick[0]);
+    if(tank) {
+      upSysPwr(&lDrive, stick[2]);
+      upSysPwr(&rDrive, stick[1]);
+    }
+    else {
+      upSysPwr(&lDrive, stick[2] + stick[0]);
+      upSysPwr(&rDrive, stick[2] - stick[0]);
+    }
 
     if(vexRT[Btn5U] ^ vexRT[Btn5D]) {
       if(vexRT[Btn5U])
-        liftCtl(&liftMtrPorts, liftMtrCt, 127);
+        upSysPwr(&Lift, 127);
       else
-        liftCtl(&liftMtrPorts, liftMtrCt, -127);
+        upSysPwr(&Lift, -127);
     }
     else
-      liftCtl(&liftMtrPorts, liftMtrCt, 0);
+      upSysPwr(&Lift, 0);
 
     if(vexRT[Btn5U] ^ vexRT[Btn5D]) {
       if(vexRT[Btn5U])
-        clawCtl(&clawMtrPorts, clawMtrCt, 127);
+        upSysPwr(&Claw, 127);
       else
-        clawCtl(&clawMtrPorts, clawMtrCt, -127);
+        upSysPwr(&Claw, -127);
     }
     else
-      clawCtl(&clawMtrPorts, clawMtrCt, 0);
+      upSysPwr(&Claw, 0);
 
     wait1Msec(20);
   }
