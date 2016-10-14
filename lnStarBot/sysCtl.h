@@ -1,3 +1,7 @@
+#ifndef SYS_CTL_H
+
+#define SYS_CTL_H
+
 typedef struct {
   signed char mtrPorts[6],
     revPorts[6],
@@ -214,3 +218,5 @@ signed char upSysPwr(Sys* sys, signed char pwr) {
   }
   return sys->pwr;
 }
+
+#endif
