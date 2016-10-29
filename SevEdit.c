@@ -250,7 +250,7 @@ task usercontrol() {
 	while (true) {
 	  for(int i = 0; i < 4; i++)
 			stick[i] =
-				(fabs(vexRT[i]) >= stickThresh)
+				(abs(vexRT[i]) >= stickThresh)
 				? vexRT[i]
 				: 0;
 
