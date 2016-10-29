@@ -212,31 +212,28 @@ task autonomous() {
 
 	startTask(pidCtls);
   
-  motor[rDrive] = 127;
-  motor[lDrive] = 127;
-  wait1Msec(2000);
-  setLift(127);
-  wait1Msec(750);
-  setLift(0);
-  do {
-  	clawEncLast = SensorValue[clawEnc];
-  	setClaw(127);
-  	wait1Msec(50);
-	} while(SensorValue[clawEnc] != clawEncLast);
-	setClaw(SensorValue[clawEnc] = 0);
-	do {
-		liftEncLast = SensorValue[liftEnc];
-		setLift(-127);
-		wait1Msec(50);
-	} while(SensorValue[liftEnc] != liftEncLast);
-	setLift(SensorValue[liftEnc] = 0);
-	while(SensorValue[clawEnc] > -500) {
-		setClaw(-127);
-		wait1Msec(20);
-	}
-	setClaw(127);
-	wait1Msec(20);
-	setClaw(0);
+  	motor[rDrive] = 127;
+	motor[lDrive] = 127;
+	wait1Msec(2000);
+//   do {
+//   	clawEncLast = SensorValue[clawEnc];
+//   	setClaw(127);
+//   	wait1Msec(50);
+// 	} while(SensorValue[clawEnc] != clawEncLast);
+// 	setClaw(SensorValue[clawEnc] = 0);
+// 	do {
+// 		liftEncLast = SensorValue[liftEnc];
+// 		setLift(-127);
+// 		wait1Msec(50);
+// 	} while(SensorValue[liftEnc] != liftEncLast);
+// 	setLift(SensorValue[liftEnc] = 0);
+// 	while(SensorValue[clawEnc] > -500) {
+// 		setClaw(-127);
+// 		wait1Msec(20);
+// 	}
+// 	setClaw(127);
+// 	wait1Msec(20);
+// 	setClaw(0);
 }
 
 
