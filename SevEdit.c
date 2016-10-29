@@ -211,7 +211,10 @@ task autonomous() {
 		liftEncLast;
 
 	startTask(pidCtls);
-
+  
+  motor[rDrive] = 127;
+  motor[lDrive] = 127;
+  wait1Msec(2000);
   setLift(127);
   wait1Msec(750);
   setLift(0);
